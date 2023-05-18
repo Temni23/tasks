@@ -5,6 +5,7 @@ def two_sum(arr: List[int], target_sum: int) -> Optional[Tuple[int, int]]:
     for first in arr:
         second = target_sum - first
         if second in cashed:
+
             return first, second
         else:
             cashed.add(first)
