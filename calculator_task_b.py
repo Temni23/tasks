@@ -1,4 +1,4 @@
-# Решение 87349964
+# ID 87465284
 
 from operator import add, floordiv, mul, sub
 from typing import List
@@ -11,18 +11,22 @@ OPERATORS = {
 }
 
 
+class StackEmptyException(Exception):
+    pass
+
+
 class Stack:
     def __init__(self):
-        self.items = []
+        self.__items = []
 
     def push(self, item: int):
-        self.items.append(item)
+        self.__items.append(item)
 
     def pop(self):
         try:
-            return self.items.pop()
+            return self.__items.pop()
         except IndexError:
-            raise IndexError('Stack is empty')
+            raise StackEmptyException('Stack is empty')
 
 
 def calculator(stack, elem_list: List[str]):
@@ -37,5 +41,5 @@ def calculator(stack, elem_list: List[str]):
 
 if __name__ == '__main__':
     stack = Stack()
-    elem_list = list(input().split())
+    elem_list = input().split()
     print(calculator(stack, elem_list))

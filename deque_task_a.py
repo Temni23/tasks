@@ -1,62 +1,59 @@
-# ID 87349525
+# ID 87464939
 
 class Deque:
     def __init__(self, max_size):
-        self.max_size = max_size
-        self.data = [None] * max_size
-        self.start = 0
-        self.end = 0
-        self.size = 0
+        self.__max_size = max_size
+        self.__data = [None] * max_size
+        self.__start = 0
+        self.__end = 0
+        self.__size = 0
 
     def push_back(self, value):
-        if self.size == self.max_size:
-            print("error")
-            return
-        self.data[self.end] = value
-        self.end = (self.end + 1) % self.max_size
-        self.size += 1
+        if self.__size == self.__max_size:
+            return False
+        self.__data[self.__end] = value
+        self.__end = (self.__end + 1) % self.__max_size
+        self.__size += 1
 
     def push_front(self, value):
-        if self.size == self.max_size:
-            print("error")
-            return
-        self.start = (self.start - 1) % self.max_size
-        self.data[self.start] = value
-        self.size += 1
+        if self.__size == self.__max_size:
+            return False
+        self.__start = (self.__start - 1) % self.__max_size
+        self.__data[self.__start] = value
+        self.__size += 1
 
     def pop_front(self):
-        if self.size == 0:
-            return "error"
-
-        value = self.data[self.start]
-        self.data[self.start] = None
-        self.start = (self.start + 1) % self.max_size
-        self.size -= 1
+        if self.__size == 0:
+            return False
+        value = self.__data[self.__start]
+        self.__data[self.__start] = None
+        self.__start = (self.__start + 1) % self.__max_size
+        self.__size -= 1
         return value
 
     def pop_back(self):
-        if self.size == 0:
-            return "error"
-        self.end = (self.end - 1) % self.max_size
-        value = self.data[self.end]
-        self.data[self.end] = None
-        self.size -= 1
+        if self.__size == 0:
+            return False
+        self.__end = (self.__end - 1) % self.__max_size
+        value = self.__data[self.__end]
+        self.__data[self.__end] = None
+        self.__size -= 1
         return value
 
 
 def check_command(command, deque):
-    if command.startswith("push_back"):
-        deque.push_back(int(command.split()[1]))
-    if command.startswith("push_front"):
-        deque.push_front(int(command.split()[1]))
-    if command == "pop_front":
-        print(deque.pop_front())
-    if command == "pop_back":
-        print(deque.pop_back())
+    if len(command) > 1:
+        return getattr(deque, command[0])(int(command[1]))
+    else:
+        return getattr(deque, command[0])()
 
 
 if __name__ == "__main__":
     commands_number = int(input())
     my_deque = Deque(int(input()))
     for _ in range(commands_number):
-        check_command(input(), my_deque)
+        result = check_command(input().split(), my_deque)
+        if result is False:
+            print("error")
+        elif isinstance(result, int):
+            print(result)
