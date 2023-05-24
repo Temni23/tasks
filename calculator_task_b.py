@@ -1,4 +1,4 @@
-# ID 87465284
+# ID 87478400
 
 from operator import add, floordiv, mul, sub
 from typing import List
@@ -34,8 +34,11 @@ def calculator(stack, elem_list: List[str]):
         if elem not in OPERATORS:
             stack.push(int(elem))
         else:
-            num_a, num_b = stack.pop(), stack.pop()
-            stack.push(OPERATORS[elem](num_b, num_a))
+            try:
+                num_a, num_b = stack.pop(), stack.pop()
+                stack.push(OPERATORS[elem](num_b, num_a))
+            except StackEmptyException:
+                print('Stack is empty')
     return stack.pop()
 
 

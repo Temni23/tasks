@@ -1,4 +1,12 @@
-# ID 87464939
+# ID 87485051
+
+class DequeFullException(Exception):
+    pass
+
+
+class DequeEmptyException(Exception):
+    pass
+
 
 class Deque:
     def __init__(self, max_size):
@@ -10,21 +18,21 @@ class Deque:
 
     def push_back(self, value):
         if self.__size == self.__max_size:
-            return False
+            raise DequeFullException("The queue is full")
         self.__data[self.__end] = value
         self.__end = (self.__end + 1) % self.__max_size
         self.__size += 1
 
     def push_front(self, value):
         if self.__size == self.__max_size:
-            return False
+            raise DequeFullException("The queue is full")
         self.__start = (self.__start - 1) % self.__max_size
         self.__data[self.__start] = value
         self.__size += 1
 
     def pop_front(self):
         if self.__size == 0:
-            return False
+            raise DequeEmptyException("The queue is empty")
         value = self.__data[self.__start]
         self.__data[self.__start] = None
         self.__start = (self.__start + 1) % self.__max_size
@@ -33,7 +41,7 @@ class Deque:
 
     def pop_back(self):
         if self.__size == 0:
-            return False
+            raise DequeEmptyException("The queue is empty")
         self.__end = (self.__end - 1) % self.__max_size
         value = self.__data[self.__end]
         self.__data[self.__end] = None
@@ -44,16 +52,18 @@ class Deque:
 def check_command(command, deque):
     if len(command) > 1:
         return getattr(deque, command[0])(int(command[1]))
-    else:
-        return getattr(deque, command[0])()
+    return getattr(deque, command[0])()
 
 
 if __name__ == "__main__":
     commands_number = int(input())
     my_deque = Deque(int(input()))
     for _ in range(commands_number):
-        result = check_command(input().split(), my_deque)
-        if result is False:
+        try:
+            result = check_command(input().split(), my_deque)
+            if isinstance(result, int):
+                print(result)
+        except DequeEmptyException:
             print("error")
-        elif isinstance(result, int):
-            print(result)
+        except DequeFullException:
+            print("error")
