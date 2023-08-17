@@ -3,7 +3,7 @@
 # if it were inserted in order.
 # You must write an algorithm with O(log n) runtime complexity.
 
-nums, target = [1,2,3,4,5,10], 5
+nums, target = [1, 2, 3, 4, 5, 10], 5
 
 
 def search_insert(array: list, insert_num: int) -> int:
