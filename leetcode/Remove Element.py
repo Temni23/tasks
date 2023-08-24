@@ -59,4 +59,4 @@ def remove_element_alternative(nums: List[int], val: int) -> int:
     return len(nums)
 
 
-print(remove_element(nums_for_test, val_for_test))
+print(remove_element_alternative(nums_for_test, val_for_test))
